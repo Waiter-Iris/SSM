@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zzz.dao.UserDao">
+<sql id="cols">id,user_name,age,remark</sql>
+	<select id="findAll" resultType="cn.zzz.pojo.User">
+		select <include refid="cols"/> from user
+	</select>
+	
+	<select id="findByIdAndUserName" resultType="cn.zzz.pojo.User" parameterType="cn.zzz.pojo.User">
+		select <include refid="cols"/>
+		from 
+			user 
+		where id = #{id} and user_name=#{user_name}
+	</select>
+
+<select id="findByNameUser" resultType="cn.zzz.pojo.User" parameterType="String">
+		select <include refid="cols"/>
+		from user
+		where user_name like "%${_parameter}%";
+	</select>
+
+	<select id="findById" resultType="cn.zzz.pojo.User" parameterType="int">
+		select
+			 <include refid="cols"/>
+		from
+				user
+		where
+				id=#{id}
+				
+	</select>
+
+	<insert id="save" parameterType="cn.zzz.pojo.User">
+			insert into user values(#{id},#{user_name},#{age},#{remark})
+	</insert>
+
+	<delete id="remove" parameterType="cn.zzz.pojo.User">
+		delete from user where id=#{id};
+	</delete>
+
+	<update id="change" parameterType="cn.zzz.pojo.User">
+		update 
+				user 
+		set 
+				user_name=#{user_name},age=#{age},remark=#{remark}
+		where
+				id=#{id}
+	</update>
+</mapper>
